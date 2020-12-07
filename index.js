@@ -25,12 +25,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 
-// read todo
+// read user
 app.get('/user', (req, res) => {
     res.json(users)
 })
 
-// read todo
+// read user
 app.get('/user/:id', (req, res) =>  {
     let result = null;
 
@@ -47,14 +47,14 @@ app.get('/user/:id', (req, res) =>  {
     }
 })
 
-// create todo
+// create user
 app.post('/user', (req, res) => {
     users.push(req.body)
 
     res.json({ message: 'data created' })
 })
 
-// update todo
+// update user
 app.patch('/user/:id', (req, res) => {
     for (let i = 0; i < users.length; i++) {
         if (users[i].id == req.params.id) {
@@ -65,7 +65,7 @@ app.patch('/user/:id', (req, res) => {
     res.json({ message: 'data updated' })
 })
 
-// delete to
+// delete user
 app.delete('/user/:id', (req, res) => {
     let index = null;
 
