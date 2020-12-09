@@ -10,6 +10,7 @@ const users = [
         id: 1,
         username: 'yovanta',
         password: '01011001',
+        email: "yovan@gmail.com",
         firstName: 'yovanta',
         lastName: 'anjelina',
         age: 19,
