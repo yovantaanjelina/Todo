@@ -1,22 +1,17 @@
-
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
+const mysql = require('mysql')
 
-const port = 3000
+const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3006,
+    user: 'root',
+    password: 'pass_123',
+    database: 'todo_db'
+})
 
-const users = [
-    { 
-        id: 1,
-        username: 'yovanta',
-        password: '01011001',
-        email: "yovan@gmail.com",
-        firstName: 'yovanta',
-        lastName: 'anjelina',
-        age: 19,
-        isFinished: true
-    }
-]
+const port = 3002
 
 
 // parse application/x-www-form-urlencoded
@@ -26,59 +21,44 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 
-// read user
+// read todo
 app.get('/user', (req, res) => {
-    res.json(users)
+    connection.query('SELECT * FROM users', (error, result) => {
+        if (!error) res.json(result)
+    })
 })
 
-// read user
+// read todo
 app.get('/user/:id', (req, res) =>  {
-    let result = null;
-
-    for (let i = 0; i < users.length; i++) {
-        if (users[i].id == req.params.id) {
-            result = users[i]
-        }
-    }
-
-    if (!result) {
-        res.sendStatus(404)
-    } else {
-        res.json(result)
-    }
+    res.sendStatus(501)
 })
 
 // create user
 app.post('/user', (req, res) => {
-    users.push(req.body)
+    const user = {
+        fullname: req.body.fullname,
+        username: req.body.username,
+        passwords: req.body.passwords
+    }
 
-    res.json({ message: 'data created' })
+    connection.query('INSERT INTO users SET ?', user, (error, results) => {
+        if (!error) {
+            res.json({ message: 'data created'})
+        } else {
+            res.status(500).json({error: error})
+        }
+    })
+   
 })
 
-// update user
+// update todo, dibagian updat
 app.patch('/user/:id', (req, res) => {
-    for (let i = 0; i < users.length; i++) {
-        if (users[i].id == req.params.id) {
-            users[i].isFinished = req.body.isFinished
-        }
-    }
-
-    res.json({ message: 'data updated' })
+    res.sendStatus(501)
 })
 
-// delete user
+// delete to
 app.delete('/user/:id', (req, res) => {
-    let index = null;
-
-    for (let i = 0; i < users.length; i++) {
-        if (users[i].id == req.params.id) {
-            index = [i]
-        }
-    }
-
-    users.splice(index, 1)
-
-    res.json({ message: 'data deleted' })
+    res.sendStatus(501)
 })
 
 app.listen(port, () => {
