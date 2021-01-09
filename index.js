@@ -5,26 +5,26 @@ const mysql = require('mysql')
 
 const connection = mysql.createConnection({
     host: 'localhost',
-    port: 3006,
+    port: 3306,
     user: 'root',
     password: 'pass_123',
     database: 'todo_db'
 })
 
-const port = 3002
+const port = 3006
 
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
  
-// parse application/json
+// parse application/jsnpm on
 app.use(bodyParser.json())
 
 
 // read todo
 app.get('/user', (req, res) => {
-    connection.query('SELECT * FROM users', (error, result) => {
-        if (!error) res.json(result)
+    connection.query('SELECT * FROM users', (error, results) => {
+        if (!error) res.json(results)
     })
 })
 
@@ -43,9 +43,9 @@ app.post('/user', (req, res) => {
 
     connection.query('INSERT INTO users SET ?', user, (error, results) => {
         if (!error) {
-            res.json({ message: 'data created'})
+            res.json({ message: 'data created' })
         } else {
-            res.status(500).json({error: error})
+            res.status(500).json({ error: error })
         }
     })
    
